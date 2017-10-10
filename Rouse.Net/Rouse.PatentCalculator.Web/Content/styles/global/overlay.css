@@ -1,0 +1,461 @@
+﻿/* File Created: September 16, 2013 */
+.ui-block-spinner
+{
+	display: inline-block;
+	width: 32px;
+	height: 32px;
+	background-image: url('/Content/images/spinner-32.gif');
+	margin: 8px 0px;
+}
+
+.one-popup
+{
+	display: none;
+	background-color: #ffffff;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+	/*margin-bottom: 5px;*/
+}
+
+.ui-ovl
+{
+	/*overflow: hidden;*/
+	position: relative;
+	width: 600px;
+	background-color: #FFFFFF;
+	display: block;
+}
+.ui-ovl.wide
+{
+	width: 1000px;
+}
+.ui-ovl.full
+{
+ width: 1200px;   
+}
+.ui-ovl .ovl-header
+{
+	margin: 0px 0px;
+	/*padding: 10px 20px 20px;*/
+	background-color: #E5E5E5;
+	padding: 0;
+	height: 30px;
+	line-height: 30px;
+	overflow: hidden;
+	/*border-bottom: solid 1px #cfcfcf;*/
+	
+}
+.ui-ovl .ovl-header .ovl-header-title
+{
+	font-size: 15px;
+	padding-left: 20px;
+}
+
+.ui-ovl .ovl-header .ovl-edit-button
+{
+	display: inline-block;
+	position: absolute;
+	top: 0px;
+	right: 30px;
+	font-family: DejaVu,Lucida Sans Unicode,Arial Unicode MS;
+	font-size: 20px;
+	font-weight: bold;
+	width: 39px;
+	height: 30px;
+	line-height: 30px;
+	text-align: center;
+	vertical-align: middle;
+	border-left: solid 1px #e5e5e5;
+	/*border-bottom: solid 1px #e5e5e5;*/
+	background-color: #e5e5e5;
+	cursor: pointer;
+}
+
+.ui-ovl .close-btn
+{
+	display: inline-block;
+	position: absolute;
+	top: 0px;
+	right: 0px;
+	font-family: DejaVu,Lucida Sans Unicode,Arial Unicode MS;
+	font-size: 20px;
+	font-weight: bold;
+	width: 39px;
+	height: 30px;
+	line-height: 30px;
+	text-align: center;
+	vertical-align: middle;
+	border-left: solid 1px #e5e5e5;
+	/*border-bottom: solid 1px #e5e5e5;*/
+	background-color: #e5e5e5;
+	cursor: pointer;
+}
+.ui-ovl .close-btn:hover
+{
+	background-color: #f5f5f5;
+}
+
+.ui-ovl .ovl-header .header-title
+{
+	color: #666666;
+	font-size: 15px;
+	padding-left: 20px;
+}
+.ui-ovl .ovl-body
+{
+	margin: 5px 0px;
+	min-height: 250px;
+}
+.ui-ovl .ovl-body .input-field-row
+{
+	margin: 5px 0px;
+	padding: 0px 20px
+}
+
+.ui-ovl .ovl-body .input-field-row .field-title
+{
+	display: block;
+	float: left;
+	width: 270px;
+	font-weight: bold;
+	font-size: 15px;
+	
+	/*margin: 5px 0px;
+	line-height: 18px;*/
+	
+	height: 30px;
+	line-height: 30px;
+}
+.ui-ovl .ovl-body .input-field-row .field-value,
+.ui-ovl .ovl-body .input-field-row .field-value-select
+{
+	display: block;
+	float: left;
+	width: 290px;
+	height: 30px;
+	line-height: 30px;
+}
+.ui-ovl .ovl-body .input-field-row .field-value.textarea,
+.ui-ovl .ovl-body .input-field-row .field-value.multiline
+{
+	height: auto;
+}
+.ui-ovl .ovl-body .input-field-row .field-value select,
+.ui-ovl .ovl-body .input-field-row .field-value-select select
+{
+	width: 250px;
+}
+.ui-ovl .ovl-body .input-field-row .field-value > input
+{
+	width: 246px;
+	border: 1px solid #E6E6E6;
+	padding: 1px;
+	height: 20px;
+	line-height: 20px;
+	text-indent: 3px;
+	font-size: 15px;
+}
+.ui-ovl .ovl-body .input-field-row .field-value.medium
+{
+	width: 160px;
+}
+.ui-ovl .ovl-body .input-field-row .field-value.medium > input
+{
+	width: 150px;
+}
+.ui-ovl .ovl-body .input-field-row .field-value.medium > select
+{
+	width: 150px;
+}
+.ui-ovl .ovl-body .input-field-row .field-value.short
+{
+	width: 100px;
+}
+.ui-ovl .ovl-body .input-field-row .field-value.short > input
+{
+	width: 80px;
+}
+.ui-ovl .ovl-body .input-field-row .field-value.short > select
+{
+	width: 80px;
+}
+.ui-ovl .ovl-body .input-field-row .field-value.checkbox
+{
+	text-align: left;
+}
+.ui-ovl .ovl-body .input-field-row .field-value.checkbox input
+{
+	height: 20px;
+	line-height: 20px;
+	text-align: left;
+	margin:5px 0;
+}
+
+.ui-ovl .ovl-body .input-field-row .field-value > input.error,
+.ui-ovl .ovl-body .input-field-row .field-value > textarea.error
+{
+	border-color: #FF5757;
+}
+.ui-ovl .ovl-body .input-field-row .field-value textarea
+{
+	width: 245px;
+	padding-left: 2px;
+	border: 1px solid #E6E6E6;
+	line-height: 20px;
+	height: 60px;
+}
+.ui-ovl .ovl-body .input-field-row .field-value > input[disabled],
+.ui-ovl .ovl-body .input-field-row .field-value textarea[disabled]
+{
+	color: #666666;
+}
+.ui-ovl .ovl-body .input-field-row .value-short-txt
+{
+	display: block;
+	float: left;
+	width: 100px;
+	height: 30px;
+	line-height: 30px;
+}
+.ui-ovl .ovl-body .input-field-row .value-short-txt input
+{
+	width: 70px;
+	border: 1px solid #E6E6E6;
+	font-size: 15px;
+	height: 20px;
+	line-height: 20px;
+	text-indent: 3px;
+	margin-top: 3px;
+}
+.ui-ovl .ovl-body .input-field-row .value-short-txt input.error
+{
+	border-color: #FF5757;
+}
+
+
+/* TODO horizontal */
+.ui-ovl .ovl-body .input-field-row .field-title.f-vert
+{
+	display: block;
+	width:auto;
+	float: none;
+	padding-bottom: 6px;
+}
+.ui-ovl .ovl-body .input-field-row .field-value.f-vert
+{
+	display: block;
+	width:auto;
+	float: none;
+	margin-bottom: 5px;
+}
+
+/*.ui-ovl .ovl-body .input-field-row .field-value.f-vert
+{
+	display: block;
+}*/
+
+.ui-ovl .ovl-body .input-field-row .field-value.f-vert.r-2 .f-radio-field
+{
+	width: 49%;
+}
+
+/* FOOTER */
+.ui-ovl .ovl-footer
+{
+	min-height: 15px;
+	margin: 5px 0px;
+	border-top: solid 1px #cfcfcf;
+}
+.ui-ovl .ovl-footer .btn-container
+{
+	text-align: right;
+	margin: 10px 10px;
+}
+
+/* --- Crystal skin --- */
+.ui-ovl.crystal,
+.ui-ovl.crystal .ovl-body input,
+.ui-ovl.crystal .ovl-body textarea
+{
+	font-family: Calibri,"Arimo",Arial;
+	font-size: 15px;
+}
+.ui-ovl.crystal .close-btn
+{
+	background: transparent;
+	border-left-width: 0;
+	font-family: Calibri, Arial;
+	font-size: 24px;
+	height: 26px;
+	line-height: 26px;
+	width: 34px;
+	color: #666666;
+}
+.ui-ovl.crystal .close-btn:hover
+{
+	background: #F2F2F2;
+	color: #444444;
+}
+
+.ui-ovl.crystal .ovl-header
+{
+	background-color: transparent;
+	height: 26px;
+	line-height: 26px;
+}
+.ui-ovl.crystal .ovl-header .ovl-title
+{
+	color: #555555;
+	font-family: Calibri,"Arimo",Arial;
+	font-size: 16px;
+	font-weight: 700;
+	text-transform: uppercase;
+	padding-left: 20px;
+}
+.ui-ovl.crystal .ovl-body
+{
+	margin: 0;
+}
+.ui-ovl.crystal .ovl-body .input-field-row .field-title
+{
+	font-weight: normal;
+}
+.ui-ovl.crystal .ovl-body .input-field-row .field-value > input,
+.ui-ovl.crystal .ovl-body .input-field-row .field-value.multiline input
+{
+	font-family: Calibri,"Arimo",Arial;
+}
+
+.ui-ovl.crystal .chosen-container
+{
+	font-size: 15px;
+}
+.ui-ovl.crystal .ui-btn
+{
+	font-size: 13px;
+	padding: 0 6px;
+	height: 28px;
+	line-height: 28px;
+}
+
+/* -------------------- PLUGIN OVERRIDES -------------------- */
+/* Tipped */
+.tpd-tooltip
+{
+	/*overflow: auto;*/
+}
+.tpd-tooltip .tpd-background-content {
+  background: #FFFFFF;
+}
+.tpd-tooltip .tpd-background {
+  border-width: 1px;
+  border-color: #cecece;
+}
+.tpd-tooltip .tpd-content
+{
+	color: #444444;
+}
+.tpd-content-wrapper
+{
+	padding: 0px;
+	margin: 0;
+}
+.tpd-content-spacer
+{
+	padding: 0;
+	margin: 0;
+}
+.tpd-content-relative-padder
+{
+	padding-right: 0px;
+}
+
+/* *** plan-tt *** */
+.tpd-tooltip.tpd-skin-plain-tt
+{
+}
+.tpd-tooltip.tpd-skin-plain-tt .tpd-content
+{
+    padding: 3px;
+    font-size: 14px;
+}
+
+/* clean-light */
+.tpd-tooltip.tpd-skin-clean-light .tpd-background-content 
+{
+	background: transparent;
+}
+.tpd-tooltip.tpd-skin-clean-light .tpd-background
+{
+	border-width: 0;
+	margin: 0;
+}
+
+/* clean-light-no-of */
+.tpd-skin-clean-light-no-of
+{
+	color: #444444;
+	/*overflow: auto;*/
+}
+.tpd-skin-clean-light-no-of .tpd-content-wrapper 
+{
+	overflow: visible;
+}
+.tpd-skin-clean-light-no-of .tpd-content
+{
+	color: #444444;
+}
+.tpd-skin-clean-light-no-of .tpd-background
+{
+	background: transparent;
+	margin: 0;
+	border-width: 0;
+}
+.tpd-skin-clean-light-no-of .tpd-background-content 
+{
+	background: transparent;
+}
+
+
+/* error tooltip */
+.tpd-skin-errorTooltip .tpd-background-content
+{
+	background: #666666;
+}
+.tpd-skin-errorTooltip .tpd-background
+{
+	border-radius: 3px;
+}
+.tpd-skin-errorTooltip .tpd-content
+{
+	color: #FFFFFF;
+	padding: 4px;
+}
+.tpd-skin-errorTooltip .tpd-content-spacer
+{
+}
+
+
+/* CHOSEN - clash with tipped fix */
+.chosen-container-single a.chosen-single,
+.chosen-container-single a.chosen-single:hover
+{
+	border: 1px solid #AAAAAA;
+	text-decoration: none;
+	color: #444444;
+}
+
+/* PAGE BLOCK OVERLAY */
+#blockUIOverlay.default {
+	background-color: #E3E3E3;
+}
+#blockUIOverlay {
+	height: 100%;
+	opacity: 0.35;
+	/* IE 8 */
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=35)";
+	/* IE 5-7 */
+	filter: alpha(opacity=35);
+	position: fixed;
+	width: 100%;
+	z-index: 100;
+}

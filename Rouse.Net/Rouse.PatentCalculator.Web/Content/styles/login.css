@@ -1,0 +1,252 @@
+﻿/* File Created: September 11, 2013 */
+/**
+ * For modern browsers
+ * 1. The space content is one way to avoid an Opera bug when the
+ *    contenteditable attribute is included anywhere else in the document.
+ *    Otherwise it causes space to appear at the top and bottom of elements
+ *    that are clearfixed.
+ * 2. The use of `table` rather than `block` is only necessary if using
+ *    `:before` to contain the top-margins of child elements.
+ */
+.cf:before,
+.cf:after {
+	content: " "; /* 1 */
+	display: table; /* 2 */
+}
+
+.cf:after {
+	clear: both;
+}
+
+/**
+ * For IE 6/7 only
+ * Include this rule to trigger hasLayout and contain floats.
+ */
+.cf {
+	*zoom: 1;
+}
+
+input[type="email"], input[type="number"], input[type="password"], input[type="tel"], input[type="text"], input[type="url"] {
+	-moz-border-bottom-colors: none;
+	-moz-border-left-colors: none;
+	-moz-border-right-colors: none;
+	-moz-border-top-colors: none;
+	-moz-box-sizing: border-box;
+	background: none repeat scroll 0 0 #FFFFFF;
+	border-color: #C0C0C0 #D9D9D9 #D9D9D9;
+	border-image: none;
+	border-radius: 1px 1px 1px 1px;
+	border-right: 1px solid #D9D9D9;
+	border-style: solid;
+	border-width: 1px;
+	display: inline-block;
+	height: 29px;
+	margin: 0;
+	padding: 0 8px;
+}
+input[type="email"]:hover, input[type="number"]:hover, input[type="password"]:hover, input[type="tel"]:hover, input[type="text"]:hover, input[type="url"]:hover {
+	-moz-border-bottom-colors: none;
+	-moz-border-left-colors: none;
+	-moz-border-right-colors: none;
+	-moz-border-top-colors: none;
+	border-color: #A0A0A0 #B9B9B9 #B9B9B9;
+	border-image: none;
+	border-right: 1px solid #B9B9B9;
+	border-style: solid;
+	border-width: 1px;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1) inset;
+}
+input[type="email"]:focus, input[type="number"]:focus, input[type="password"]:focus, input[type="tel"]:focus, input[type="text"]:focus, input[type="url"]:focus {
+	border: 1px solid #828282;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3) inset;
+	outline: medium none;
+}
+
+input.form-error[type="checkbox"],
+input.form-error[type="email"],input.form-error[type="number"], input.form-error[type="password"],
+input.form-error[type="text"], input.form-error[type="tel"], input.form-error[type="url"] {
+	border: 1px solid #DD4B39;
+}
+.ui-button {
+	-moz-user-select: none;
+	background-color: #F5F5F5;
+	background-image: -moz-linear-gradient(center top , #F5F5F5, #F1F1F1);
+	border: 1px solid #DCDCDC;
+	border-radius: 2px 2px 2px 2px;
+	color: #444444;
+	cursor: default;
+	display: inline-block;
+	font-size: 11px;
+	font-weight: bold;
+	height: 27px;
+	line-height: 27px;
+	min-width: 46px;
+	padding: 0 8px;
+	text-align: center;
+	transition: all 0.218s ease 0s;
+	cursor: pointer;
+}
+.ui-button:hover {
+	background-color: #F8F8F8;
+	background-image: -moz-linear-gradient(center top , #F8F8F8, #F1F1F1);
+	border: 1px solid #C6C6C6;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+	color: #333333;
+	text-decoration: none;
+	transition: all 0s ease 0s;
+}
+
+
+.ui-button-submit
+{
+	background-color: #4D90FE;
+	background-image: -moz-linear-gradient(center top , #4D90FE, #4787ED);
+	border: 1px solid #3079ED;
+	color: #FFFFFF;
+	text-shadow: 0 1px rgba(0, 0, 0, 0.1);
+}
+.ui-button-submit:hover {
+	background-color: #357AE8;
+	background-image: -moz-linear-gradient(center top , #4D90FE, #357AE8);
+	border: 1px solid #2F5BB7;
+	color: #FFFFFF;
+	text-shadow: 0 1px rgba(0, 0, 0, 0.3);
+}
+
+.ui-button {
+	height: 29px;
+	line-height: 29px;
+	margin: 0;
+	vertical-align: bottom;
+}
+
+/* UI-END */
+
+html {
+	color: #333333;
+	direction: ltr;
+	font: arial,helvetica,sans-serif;
+}
+html, body
+{
+	font-family: Calibri, Arial;
+}
+.body
+{
+	position: absolute;
+	display: block;
+	width: 100%;
+	height: 100%;
+}
+.form-wrapper
+{
+	position: relative;
+	margin: 150px auto 0px;
+	
+	width: 352px;
+}
+
+.login-form
+{
+	border: 1px solid #CFCFCF;
+}
+
+.login-form .login-form-header
+{
+	margin: 30px 30px 30px;
+	position: relative;
+}
+.login-form .login-form-header .header-text
+{
+	color: #8f9094;
+	display: inline-block;
+	font-size: 22px;
+	font-weight: bold;
+	padding-top: 0px;
+	text-transform: uppercase;
+}
+.login-form .login-form-header .header-logo
+{
+	width: 146px;
+	height: 35px;
+	/*background-image: url('/Content/images/login-logo-146x35.png');*/
+	
+	display: inline-block;
+	position: absolute;
+	right: 0;
+	top: 1px;
+}
+.login-form .form-fields .field-box
+{
+	margin: 0px 30px 15px;
+}
+.login-form .form-fields .field-box .field-label
+{
+	margin: 0 0 4px;
+	font-weight: bold;
+	font-size: 14px;
+}
+.login-form .form-fields .field-box .field-input
+{
+	
+}
+.login-form .form-fields .field-box .field-input input
+{
+	margin: 0 0 2px;
+	width: 100%;
+	height: 32px;
+	font-size: 15px;
+}
+
+.login-form .form-general-error-box
+{
+	margin: 0px 30px 0px;
+}
+.login-form .error-msg
+{
+	color: #DD4B39;
+	display: block;
+	line-height: 17px;
+	margin: 0.5em 0 0;
+}
+
+/* Login buttons */
+.login-form .form-submit-box
+{
+	margin: 10px 30px 20px;
+}
+
+.login-form .ui-button {
+	font-size: 13px;
+	height: 32px;
+    font-family: Calibri, Arial, Helvetica;
+	/*margin: 0 1.5em 1.2em 0;*/
+    min-width: 50px;
+    box-sizing: content-box;
+    float: left;
+}
+
+.login-form .intranet-login-link
+{
+	float: right;
+	display: none;
+	line-height: 28px;
+	text-decoration: none;
+	color: #666666;
+}
+.login-form .intranet-login-link:hover
+{
+	color: #9f7450;
+}
+.login-form .support-email-link
+{
+	float: right;
+	display: block;
+	line-height: 28px;
+	text-decoration: none;
+	color: #666666;
+}
+.login-form .support-email-link:hover
+{
+	color: #9f7450;
+}

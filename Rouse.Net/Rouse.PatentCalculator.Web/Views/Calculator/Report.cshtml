@@ -1,0 +1,103 @@
+﻿@using NodaMoney
+@model Rouse.PatentCalculator.Models.BreakdownAnnuitiesModel
+
+@{
+    ViewBag.Title = "Report";
+    var isDifferenceCurrency = Model.CurrencyCode != Model.DefaultCurrencyCode;
+    var isFirstPayment = Model.FillingDate.HasValue && Model.GrantDate.HasValue;
+    var request = ViewBag.Request as Rouse.PatentCalculator.Models.CalculationRequest;
+}
+<div class="row">
+    <div class="col-md-2 text-left">
+        <button class="btn btn-default" id="btnBack">Back</button>
+    </div>
+    <div class="col-md-2 padding-top-7">Available report type: </div>
+    <div class="col-md-5 text-center">
+        @Html.DropDownList("ReportTypeSelect", @ViewBag.DropDownSource as IEnumerable<SelectListItem>)
+    </div>
+    <div class="col-md-3 text-center">
+        <button class="btn btn-primary" id="exportExcel">Export Excel</button>
+        <button class="btn btn-primary" id="exportPdf">Export Pdf</button>
+    </div>
+</div>
+
+<div id="content">
+    @Html.Partial("BodyReport", Model)
+</div>
+
+@using (Html.BeginForm("Index", "Calculator", null, FormMethod.Post, new { @id = "form"})) {
+    @Html.Hidden("CountryCode", @request.CountryCode);
+    @Html.Hidden("PatentTypeId", @request.PatentTypeId);
+    @Html.Hidden("ApplicationPatentNo", request.ApplicationPatentNo);
+    @Html.Hidden("NoOfClaim", @request.NoOfClaim);
+    @Html.Hidden("FilingDate", @request.FilingDate);
+    @Html.Hidden("GrantDate", @request.GrantDate);
+    @Html.Hidden("AgencyFeeDiscount", @request.AgencyFeeDiscount);
+    @Html.Hidden("CurrencyCode", @request.CurrencyCode);
+    @Html.Hidden("ReportTypeId", @request.ReportTypeId);
+    @Html.Hidden("isBack", true);
+}
+
+@section scripts {
+    <script type="text/javascript">
+        function isIE() {
+            var isIE11 = navigator.userAgent.indexOf(".NET CLR") > -1;
+            var isIE11orLess = isIE11 || navigator.appVersion.indexOf("MSIE") != -1;
+            return isIE11orLess;
+        }
+
+
+        $('#exportExcel').click(function() {
+            var uri = 'data:application/vnd.ms-excel;charset=UTF-8;base64,',
+                template =
+                    '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body><table>{table}</table></body></html>',
+                base64 = function(s) {
+                    return window.btoa(unescape(encodeURIComponent(s)));
+                },
+                format = function(s, c) {
+                    return s.replace(/{(\w+)}/g, function(m, p) { return c[p]; });
+                }
+            var table = document.getElementById("content");
+            var ctx = { worksheet: name || 'Report', table: table.innerHTML };
+            if (isIE()) {
+                if (window.navigator.msSaveBlob) {
+                    var blob = new Blob([format(template, ctx)],
+                        {
+                            type: "text/html"
+                        });
+                    navigator.msSaveBlob(blob, 'Report.xls');
+                }
+            } else
+                window.location.href = uri + base64(format(template, ctx));
+        });
+
+
+
+        $("#ReportTypeSelect").change(function () {
+            var reportType = this.value === "TotalAnnuities" ? "1" : "2";
+            var expectedPayableYear = 0;
+            if (this.value !== "TotalAnnuities" && this.value !== "FirstGrantPayment")
+                expectedPayableYear= +this.value;
+            $.post("Calculator/BodyResult",
+                {
+                    CountryCode: "@request.CountryCode",
+                    PatentTypeId: "@request.PatentTypeId",
+                    ApplicationPatentNo: "@Html.Raw(request.ApplicationPatentNo)",
+                    NoOfClaim: "@request.NoOfClaim",
+                    FilingDate: "@request.FilingDate",
+                    GrantDate: "@request.GrantDate",
+                    AgencyFeeDiscount: "@request.AgencyFeeDiscount",
+                    CurrencyCode: "@request.CurrencyCode",
+                    ReportTypeId: reportType,
+                    ExpectedPayableYear: expectedPayableYear
+                },
+                function(data, status) {
+                    $("#content").html(data);
+                });
+        });
+
+        $("#btnBack").click(function() {
+            $("#form").submit();
+        });
+    </script>
+}

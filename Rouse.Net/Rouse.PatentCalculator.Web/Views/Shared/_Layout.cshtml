@@ -1,0 +1,58 @@
+﻿﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    @*<title>@ViewBag.Title</title>*@
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @RenderSection("Styles", required: false)
+    @Scripts.Render("~/bundles/jquery")
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+    <div class="container-fluid page-header">
+        <div class="navbar-header">
+            <button type="button" class="collapsed navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href=@Url.Action("Index", "Calculator") class="navbar-brand">
+                <img class="logo" src="~/Content/images/logo-rouse.png" />
+            </a>
+            <div class="navbar-brand">
+                <span class="page-name">PATENT COST CALCULATOR</span>
+            </div>
+        </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            @Html.Partial("_LoginPartial")
+        </div>
+    </div>
+    <div class="container">
+        @*<div class="panel panel-primary page-name">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Welcome to @ViewBag.Title</h3>
+                </div>
+            </div>*@
+        <div class="body-content">@RenderBody()</div>
+    </div>
+    <div class="container">
+        <div class="footer-container container">
+            <div class="col-md-5">
+                <div class="contact-info">Got questions? Contact the Patent Cost Calculator Team</div>
+                <div class="copyright-text">Copyright &#169; @DateTime.Now.Year Rouse Team</div>
+            </div>
+        </div>
+    </div>
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/jqueryui")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/pdfmake")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

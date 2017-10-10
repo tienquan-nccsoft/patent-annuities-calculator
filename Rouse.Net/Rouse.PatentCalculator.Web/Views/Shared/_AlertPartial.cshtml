@@ -1,0 +1,9 @@
+﻿@using Rouse.PatentCalculator.Web.Models
+@if (TempData.ContainsKey(Alert.TEMP_ALERT_KEY)) {
+    var alert = (Alert)TempData[Alert.TEMP_ALERT_KEY];
+
+    <div class="alert alert-@alert.AlertType text-center alert-dismissable">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+       @alert.Message
+    </div>
+}

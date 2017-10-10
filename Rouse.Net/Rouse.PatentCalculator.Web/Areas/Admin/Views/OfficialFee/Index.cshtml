@@ -1,0 +1,147 @@
+﻿@using Rouse.PatentCalculator.DomainModels
+@using Rouse.PatentCalculator.Models
+@model Rouse.PatentCalculator.Models.AdminOfficialFeeModel
+
+@{
+    ViewBag.Title = "Official Fees Management";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+
+
+
+@Html.Partial("_AlertPartial")
+
+@if (Model == null)
+{
+    using (Html.BeginForm("Index", "OfficialFee", null, FormMethod.Get, new { @class = "form-horizontal", @id = "form", role = "form" }))
+    {
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.Label("Country", new { @class = "col-md-2 control-label control-label-text-left" })
+            <div class="col-md-10">
+                @Html.DropDownList("countryCode", new SelectList(((IEnumerable<Country>)ViewBag.Countries).Select(s => new { Value = s.Code, Text = s.Name }), "Value", "Text", "ID"), new { @class = "form-control input-width-8x" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label("Type", new { @class = "col-md-2 control-label control-label-text-left" })
+            <div class="col-md-10">
+                @Html.DropDownList("patentType", new SelectList(((IEnumerable<PatentFeeType>)ViewBag.PatentTypes).Select(s => new { Value = s.ID, Text = s.Name }), "Value", "Text"), new { @class = "form-control input-width-8x" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Get Official Fees" class="btn btn-primary" />
+            </div>
+        </div>
+    }
+}
+@if (Model != null)
+{
+    using (Html.BeginForm("Index", "OfficialFee", null, FormMethod.Post, new { @class = "form-horizontal", @id = "form", role = "form" }))
+    {
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.Label("Country", new { @class = "col-md-2 control-label control-label-text-left" })
+            <div class="col-md-10 padding-top-7">
+                @Html.DisplayFor(m => m.CountryName)
+                @Html.HiddenFor(m => m.CountryCode)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label("Type", new { @class = "col-md-2 control-label control-label-text-left" })
+            <div class="col-md-10 padding-top-7">
+                @Html.DisplayFor(m => m.PatentTypeName)
+                @Html.HiddenFor(m => m.PatentTypeId)
+                @Html.HiddenFor(m => m.PatentTypeId)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label("Currency", new { @class = "col-md-2 control-label control-label-text-left" })
+            <div class="col-md-10 padding-top-7">
+                @Html.HiddenFor(m => m.CurrencyCode)
+                @Html.DropDownListFor(m => m.CurrencyCode, new SelectList(((IEnumerable<Currency>)ViewBag.Currencies).Select(s => new { Value = s.CurrencyCode, Text = s.CurrencyCode }), "Value", "Text"), new { @class = "form-control input-width-3x", disabled=true })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label("Valid From", new { @class = "col-md-2 control-label control-label-text-left" })
+            <div class="col-md-9 col-sm-12 date-input">
+                @Html.TextBoxFor(m => m.ValidFrom, "{0:dd/MM/yyyy}", new { @class = "form-control input-width-3x date" })
+                @Html.ValidationMessageFor(m => m.ValidFrom, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="row">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>YEAR</th>
+                        <th>Basic Fee</th>
+                        <th>Claim Fee</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.OfficialFees != null)
+                    {
+                        for (var i = 0; i < Model.PatentTypeYears; i++)
+                        {
+                            <tr>
+                                <td>
+                                    @(i + 1)
+                                    @Html.Hidden($"OfficialFees[{i}].Year", (i + 1))
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(model => model.OfficialFees[i].BasicFee, new { @class = "form-control " })
+                                    @Html.ValidationMessageFor(model => Model.OfficialFees[i].BasicFee, "", new { @class = "text-danger " })
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(model => model.OfficialFees[i].ClaimFee, new { @class = "form-control " })
+                                    @Html.ValidationMessageFor(model => Model.OfficialFees[i].ClaimFee, "", new { @class = "text-danger " })
+                                </td>
+                                
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="form-group">
+            <div class="text-center">
+                <input type="submit" value="Save" class="btn btn-primary" />
+                @Html.ActionLink("Cancel", "Index", null, new { @class = "btn btn-default" })
+            </div>
+
+        </div>
+    }
+}
+
+@section scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $.validator.methods["date"] = function (value, element) {
+                return !/Invalid|NaN/.test(new Date($(element).datepicker('getDate')).toString());
+            };
+            $(".date").datepicker({
+                dateFormat: 'dd/mm/yy',
+                showOn: 'button'
+            }).next('button').button({
+                icons: {
+                    primary: 'ui-icon-calendar'
+                },
+                text: false
+            }).addClass("btn btn-default")
+                .find('.ui-button-text')
+                .css({
+                    'display': 'inline'
+                });
+            $(".spinner").spinner();
+
+            $("#form").submit(function() {
+                var e = $("#ApplicationPatentNo");
+                e.val(e.val().html());
+            });
+        });
+    </script>
+}
+
+

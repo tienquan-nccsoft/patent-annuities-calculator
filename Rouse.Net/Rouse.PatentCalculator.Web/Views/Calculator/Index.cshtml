@@ -1,0 +1,113 @@
+﻿@using Rouse.PatentCalculator.DomainModels
+@using Rouse.PatentCalculator.Web.Models
+@model Rouse.PatentCalculator.Models.CalculationRequest
+@{
+    ViewBag.Title = "Index";
+}
+
+@{
+    var dataEmpty = TempData.ContainsKey(Alert.TEMP_ALERT_KEY) && ((Alert) TempData[Alert.TEMP_ALERT_KEY]).Tag == AlertTag.DATA_EMPTY;
+}
+
+@Html.Partial("_AlertPartial")
+
+@using (Html.BeginForm("Index", "Calculator", null, FormMethod.Post, new { @class = "form-horizontal", @id = "form", role = "form" }))
+{
+    @Html.ValidationSummary(false, "", new { @class = "text-danger text-center" })
+    <div class="form-group">
+        @Html.LabelFor(m => m.CountryCode, new { @class = "col-md-3 control-label control-label-text-left" })
+        <div class="col-md-9">
+            @Html.DropDownListFor(m => m.CountryCode, new SelectList(((IEnumerable<Country>)ViewBag.Countries).Select(s => new { Value = s.Code, Text = s.Name }), "Value", "Text"), new { @class = "form-control input-width-8x" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.PatentTypeId, new { @class = "col-md-3 control-label control-label-text-left" })
+        <div class="col-md-9">
+            @Html.DropDownListFor(m => m.PatentTypeId, new SelectList(((IEnumerable<PatentFeeType>)ViewBag.PatentFeeTypes).Select(s => new { Value = s.ID, Text = s.Name }), "Value", "Text"), new { @class = "form-control input-width-8x" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.ApplicationPatentNo, new { @class = "col-md-3 control-label control-label-text-left requried" })
+        <div class="col-md-9">
+            @Html.TextBoxFor(m => m.ApplicationPatentNo, new { @class = "form-control input-width-8x" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.NoOfClaim, new { @class = "col-md-3 control-label control-label-text-left requried" })
+        <div class="col-md-9">
+            @Html.TextBoxFor(m => m.NoOfClaim, new { @class = "form-control input-width-1x spinner" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.FilingDate, new { @class = "col-md-3 control-label control-label-text-left" })
+        <div class="col-md-9 col-sm-12 date-input">
+            @Html.TextBoxFor(m => m.FilingDate, new { @class = "form-control input-width-3x date" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.GrantDate, new { @class = "col-md-3 control-label control-label-text-left" })
+        <div class="col-md-9 col-sm-12 date-input">
+            @Html.TextBoxFor(m => m.GrantDate, new { @class = "form-control input-width-3x date" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.AgencyFeeDiscount, new { @class = "col-md-3 control-label control-label-text-left" })
+        <div class="col-md-9">
+            @Html.TextBoxFor(m => m.AgencyFeeDiscount, new { @class = "form-control input-width-1x inline-block spinner" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.CurrencyCode, new { @class = "col-md-3 control-label control-label-text-left" })
+        <div class="col-md-9">
+            @Html.DropDownListFor(m => m.CurrencyCode, new SelectList(((IEnumerable<Currency>)ViewBag.Currencies).Select(s => new { Value = s.CurrencyCode, Text = s.CurrencyCode }), "Value", "Text"), new { @class = "form-control input-width-8x" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.HiddenFor(m => m.ReportTypeId, new { @class = "form-control input-width-8x" })
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-3 col-md-4">
+            <span class="requried"></span> : mandatory field
+        </div>
+        <div class="col-md-4">
+            <input type="submit" value="Calculate" disabled=@dataEmpty class="btn btn-primary btn-maxright" />
+        </div>
+    </div>
+}
+
+@section scripts {
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $.validator.methods["date"] = function(value, element) {
+                return !/Invalid|NaN/.test(new Date($(element).datepicker('getDate')).toString());
+            };
+            $(".date").datepicker({
+                    dateFormat: 'dd/mm/yy',
+                    showOn: 'button'
+                }).next('button').button({
+                    icons: {
+                        primary: 'ui-icon-calendar'
+                    },
+                    text: false
+                }).addClass("btn btn-default")
+                .find('.ui-button-text')
+                .css({
+                    'display': 'inline'
+                });
+            $(".spinner").spinner();
+        });
+
+
+       @{
+           var currencies = ((IEnumerable<Country>)ViewBag.Countries).Select(p => $"'{p.DefaultCurrency}'").ToArray();
+       }
+        window.currencies = [@Html.Raw(string.Join(", ", currencies))]
+
+        $("#CountryCode").change(function() {
+            var selectedIndex = $("#CountryCode").prop("selectedIndex");
+            var defaultCurrency = window.currencies[selectedIndex];
+            $("#CurrencyCode").val(defaultCurrency);
+        });
+
+    </script>
+}

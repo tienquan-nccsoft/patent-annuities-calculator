@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="abecc8678c2b4a9c904d31d0fb867434" Name="Diagram1">
+        <EntityTypeShape EntityType="Rouse.PatentCalculator.Data.AgencyFee" Width="1.5" PointX="5.25" PointY="9" IsExpanded="true" />
+        <EntityTypeShape EntityType="Rouse.PatentCalculator.Data.Country" Width="1.5" PointX="3" PointY="11" IsExpanded="true" />
+        <EntityTypeShape EntityType="Rouse.PatentCalculator.Data.Currency" Width="1.5" PointX="0.75" PointY="7.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Rouse.PatentCalculator.Data.OfficialFee" Width="1.5" PointX="8.25" PointY="8.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Rouse.PatentCalculator.Data.PatentFee" Width="1.5" PointX="5.25" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Rouse.PatentCalculator.Data.PatentFeeType" Width="1.5" PointX="3" PointY="7.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="Rouse.PatentCalculator.Data.Tax" Width="1.5" PointX="5.25" PointY="19.25" IsExpanded="true" />
+        <AssociationConnector Association="Rouse.PatentCalculator.Data.FK_AgencyFee_Country" ManuallyRouted="false" />
+        <AssociationConnector Association="Rouse.PatentCalculator.Data.FK_AgencyFee_Currency" ManuallyRouted="false" />
+        <AssociationConnector Association="Rouse.PatentCalculator.Data.FK_AgencyFee_PatentFeeType" ManuallyRouted="false" />
+        <AssociationConnector Association="Rouse.PatentCalculator.Data.FK_Country_Currency" ManuallyRouted="false" />
+        <AssociationConnector Association="Rouse.PatentCalculator.Data.FK_OfficialFee_Country" ManuallyRouted="false" />
+        <AssociationConnector Association="Rouse.PatentCalculator.Data.FK_PatentFee_Country" ManuallyRouted="false" />
+        <AssociationConnector Association="Rouse.PatentCalculator.Data.FK_Tax_Country" ManuallyRouted="false" />
+        <AssociationConnector Association="Rouse.PatentCalculator.Data.FK_OfficialFee_Currency" ManuallyRouted="false" />
+        <AssociationConnector Association="Rouse.PatentCalculator.Data.FK_OfficialFee_Currency1" ManuallyRouted="false" />
+        <AssociationConnector Association="Rouse.PatentCalculator.Data.FK_OfficialFee_PatentFeeType" ManuallyRouted="false" />
+        <AssociationConnector Association="Rouse.PatentCalculator.Data.FK_OfficialFee_PatentType" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

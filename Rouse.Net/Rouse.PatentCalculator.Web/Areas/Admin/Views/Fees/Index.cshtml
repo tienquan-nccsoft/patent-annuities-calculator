@@ -1,0 +1,109 @@
+﻿@using Rouse.PatentCalculator.DomainModels
+@using Rouse.PatentCalculator.Models
+@model Rouse.PatentCalculator.Models.AdminPatentFeeModel
+@{
+    ViewBag.Title = "Patent Fees Management";
+    if (Model != null && Model.AgencyFees == null) {
+        Model.AgencyFees = new List<AdminPatentFee>(new AdminPatentFee[Model.PatentTypeYears]);
+    }
+}
+
+@Html.Partial("_AlertPartial")
+
+@if (Model == null) {
+    using (Html.BeginForm("Index", "Fees", null, FormMethod.Get, new {@class = "form-horizontal", @id = "form", role = "form"})) {
+        @Html.ValidationSummary(true, "", new {@class = "text-danger"})
+        <div class="form-group">
+            @Html.Label("Country", new {@class = "col-md-2 control-label control-label-text-left"})
+            <div class="col-md-10">
+                @Html.DropDownList("countryCode", new SelectList(((IEnumerable<Country>) ViewBag.Countries).Select(s => new {Value = s.Code, Text = s.Name}), "Value", "Text", "ID"), new {@class = "form-control input-width-8x"})
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label("Type", new {@class = "col-md-2 control-label control-label-text-left"})
+            <div class="col-md-10">
+                @Html.DropDownList("patentType", new SelectList(((IEnumerable<PatentFeeType>) ViewBag.PatentTypes).Select(s => new {Value = s.ID, Text = s.Name }), "Value", "Text"), new {@class = "form-control input-width-8x"})
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Get Patent Fees" class="btn btn-primary"/>
+            </div>
+        </div>
+    }
+}
+@if (Model != null) {
+    using (Html.BeginForm("Index", "Fees", null, FormMethod.Post, new {@class = "form-horizontal", @id = "form", role = "form"})) {
+        @Html.ValidationSummary(true, "", new {@class = "text-danger"})
+        <div class="form-group">
+            @Html.Label("Country", new {@class = "col-md-2 control-label control-label-text-left"})
+            <div class="col-md-10">
+                @Html.DisplayFor(m => m.CountryName)
+                @Html.HiddenFor(m => m.CountryCode)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label("Type", new {@class = "col-md-2 control-label control-label-text-left"})
+            <div class="col-md-10">
+                @Html.DisplayFor(m => m.PatentTypeName)
+                @Html.HiddenFor(m => m.PatentTypeId)
+                @Html.HiddenFor(m => m.PatentTypeId)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label("Currency", new {@class = "col-md-2 control-label control-label-text-left"})
+            <div class="col-md-10">
+                @Html.DisplayFor(m => m.CurrencyCode)
+                @Html.HiddenFor(m => m.CurrencyCode)
+            </div>
+        </div>
+        <div class="row">
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>YEAR</th>                    
+                    <th>Basic Fee</th>
+                    <th>Claim Fee</th>
+                    <th>Agency Fee</th>
+                    <th>Valid From</th>
+                </tr>
+                </thead>
+                <tbody>
+                @if (Model.AgencyFees != null) {
+                    for (var i = 0; i < Model.PatentTypeYears; i++) {
+                        <tr>
+                            <td>
+                                @(i + 1)
+                                @Html.Hidden($"PatentFees[{i}].Year", (i + 1))
+                            </td>
+                            <td>
+                                @Html.TextBoxFor(model => model.AgencyFees[i].BasicFee, new {@class = "form-control "})
+                                @Html.ValidationMessageFor(model => Model.AgencyFees[i].BasicFee, "", new {@class = "text-danger "})
+                            </td>
+                            <td>
+                                @Html.TextBoxFor(model => model.AgencyFees[i].ClaimFee, new {@class = "form-control "})
+                                @Html.ValidationMessageFor(model => Model.AgencyFees[i].ClaimFee, "", new {@class = "text-danger "})
+                            </td>
+                            <td>
+                                @Html.TextBoxFor(model => model.AgencyFees[i].AgencyFee, new {@class = "form-control "})
+                                @Html.ValidationMessageFor(model => Model.AgencyFees[i].AgencyFee, "", new {@class = "text-danger "})
+                            </td>
+                            <td>@DateTime.Now.ToString("d-MMM-yy")</td>
+                        </tr>
+                    }
+                }
+                </tbody >
+            </table >
+        </div>
+        <div class="form-group">
+            <div class="text-center">
+                <input type="submit" value="Save" class="btn btn-primary"/>
+                @Html.ActionLink("Cancel", "Index", null, new {@class = "btn btn-default"})
+            </div >
+
+        </div>
+        //TODO add cancel button
+    }
+}
+

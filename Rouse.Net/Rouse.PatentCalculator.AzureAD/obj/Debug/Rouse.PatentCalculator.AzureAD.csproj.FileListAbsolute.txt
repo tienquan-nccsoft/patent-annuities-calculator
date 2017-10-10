@@ -1,0 +1,14 @@
+C:\Users\TienQuan\Source\Workspaces\ROUSE.NET\Development\Rouse.Net\Rouse.PatentCalculator.AzureAD\bin\Debug\Rouse.PatentCalculator.AzureAD.dll.config
+C:\Users\TienQuan\Source\Workspaces\ROUSE.NET\Development\Rouse.Net\Rouse.PatentCalculator.AzureAD\bin\Debug\Rouse.PatentCalculator.AzureAD.dll
+C:\Users\TienQuan\Source\Workspaces\ROUSE.NET\Development\Rouse.Net\Rouse.PatentCalculator.AzureAD\bin\Debug\Rouse.PatentCalculator.AzureAD.pdb
+C:\Users\TienQuan\Source\Workspaces\ROUSE.NET\Development\Rouse.Net\Rouse.PatentCalculator.AzureAD\bin\Debug\EntityFramework.dll
+C:\Users\TienQuan\Source\Workspaces\ROUSE.NET\Development\Rouse.Net\Rouse.PatentCalculator.AzureAD\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\TienQuan\Source\Workspaces\ROUSE.NET\Development\Rouse.Net\Rouse.PatentCalculator.AzureAD\bin\Debug\Microsoft.IdentityModel.Clients.ActiveDirectory.dll
+C:\Users\TienQuan\Source\Workspaces\ROUSE.NET\Development\Rouse.Net\Rouse.PatentCalculator.AzureAD\bin\Debug\Microsoft.IdentityModel.Clients.ActiveDirectory.WindowsForms.dll
+C:\Users\TienQuan\Source\Workspaces\ROUSE.NET\Development\Rouse.Net\Rouse.PatentCalculator.AzureAD\bin\Debug\EntityFramework.xml
+C:\Users\TienQuan\Source\Workspaces\ROUSE.NET\Development\Rouse.Net\Rouse.PatentCalculator.AzureAD\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\TienQuan\Source\Workspaces\ROUSE.NET\Development\Rouse.Net\Rouse.PatentCalculator.AzureAD\bin\Debug\Microsoft.IdentityModel.Clients.ActiveDirectory.xml
+C:\Users\TienQuan\Source\Workspaces\ROUSE.NET\Development\Rouse.Net\Rouse.PatentCalculator.AzureAD\obj\Debug\Rouse.PatentCalculator.AzureAD.csprojResolveAssemblyReference.cache
+C:\Users\TienQuan\Source\Workspaces\ROUSE.NET\Development\Rouse.Net\Rouse.PatentCalculator.AzureAD\obj\Debug\Rouse.PatentCalculator.AzureAD.csproj.CoreCompileInputs.cache
+C:\Users\TienQuan\Source\Workspaces\ROUSE.NET\Development\Rouse.Net\Rouse.PatentCalculator.AzureAD\obj\Debug\Rouse.PatentCalculator.AzureAD.dll
+C:\Users\TienQuan\Source\Workspaces\ROUSE.NET\Development\Rouse.Net\Rouse.PatentCalculator.AzureAD\obj\Debug\Rouse.PatentCalculator.AzureAD.pdb

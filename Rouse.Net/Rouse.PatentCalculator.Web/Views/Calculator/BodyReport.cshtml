@@ -1,0 +1,521 @@
+﻿@using NodaMoney
+@model Rouse.PatentCalculator.Models.BreakdownAnnuitiesModel
+@{
+    var isDifferenceCurrency = Model.CurrencyCode != Model.DefaultCurrencyCode;
+    var isFirstPayment = Model.PayableYear > 0;
+    var request = ViewBag.Request as Rouse.PatentCalculator.Models.CalculationRequest;
+}
+
+<h4 style="text-transform: uppercase">BREAKDOWN CALCULATION OF @(Model.PayableYear > 0 ? "PRE" : "POST")-GRANT ANNUITIES </h4>
+<br />
+<div class="row">
+    <table class="report">
+        <tr>
+            <td colspan="2" style="font-weight: bold;">CREATE COUNTRY</td>
+            <td>@Model.CreateCountry</td>
+        </tr>
+        <tr>
+            <td colspan="2" style="font-weight: bold;">REPORT DATE</td>
+            <td>@DateTime.Now.ToString("d-MMM-yy")</td>
+            @if (Model.FillingDate.HasValue) {
+                <td colspan="2" style="font-weight: bold;">FILING DATE</td>
+                <td>@(Model.FillingDate.HasValue ? Model.FillingDate.Value.ToString("d-MMM-yy") : string.Empty)</td>
+            }
+        </tr>
+        <tr>
+            <td colspan="2" style="font-weight: bold;">PATENT TYPE</td>
+            <td>@Model.PatentType</td>
+            @if (Model.GrantDate.HasValue) {
+                <td colspan="2" style="font-weight: bold;">GRANT DATE</td>
+                <td>@(Model.GrantDate.HasValue ? Model.GrantDate.Value.ToString("d-MMM-yy") : string.Empty)</td>
+            }
+        </tr>
+        <tr>
+            <td colspan="2" style="font-weight: bold;">APPLICATION / PATENT NO.</td>
+            <td colspan="4">@Model.ApplicationPatentNo</td>
+        </tr>
+        <tr>
+            <td colspan="2" style="font-weight: bold;">NO. OF CLAIM.</td>
+            <td>@Model.NumberOfClaim</td>
+            @if (Model.AgencyFeeDiscountRate > 0) {
+                <td colspan="2" style="font-weight: bold;">AGENCY FEE DISCOUNT</td>
+                <td>@string.Format("{0}%", Model.AgencyFeeDiscountRate.ToString("N0"))</td>
+            }
+        </tr>
+
+        <tr>
+            <td colspan="2" style="font-weight: bold;">CURRENCY</td>
+            <td>@Model.CurrencyCode</td>
+            @if (Model.PayableYear > 0) {
+                <td colspan="2" style="font-weight: bold;">ANNUITY YEARS</td>
+                <td>@Model.PayableYear</td>
+            }
+        </tr>
+        <tr>
+            <td colspan="2" style="font-weight: bold;">TAX RATE</td>
+            <td>@string.Format("{0}%", Model.TaxRate.ToString("N0"))</td>
+            @if (isDifferenceCurrency) {
+                <td colspan="2" style="font-weight: bold;">FX RATE</td>
+                <td>1 @Model.CurrencyCode = @(Model.FXRate < 0.01m ? string.Format("{0:n0}", 1 / Model.FXRate) : string.Format("{0:n}", 1 / Model.FXRate)) @Model.DefaultCurrencyCode</td>
+            }
+        </tr>
+        <tr>
+            <td>&nbsp;</td>
+        </tr>
+        <tr class="border">
+            <td rowspan="2" style="font-weight: bold; vertical-align: middle; text-align: center">ANNUITY</td>
+            <td rowspan="2" style="font-weight: bold; vertical-align: middle; text-align: center">NO. OF CLAIM</td>
+            <td colspan="3" style="font-weight: bold; vertical-align: middle; text-align: center">OFFICIAL FEE (@Model.DefaultCurrencyCode)</td>
+            <td rowspan="2" style="font-weight: bold; vertical-align: middle; text-align: center">AGENCY FEE @(isDifferenceCurrency ? $"({Model.CurrencyCode})" : $"({Model.DefaultCurrencyCode})")</td>
+        </tr>
+        <tr class="border">
+            <td style="font-weight: bold; vertical-align: middle; text-align: center">BASIC FEE (A)</td>
+            <td style="font-weight: bold; vertical-align: middle; text-align: center">CLAIM FEE (B)</td>
+            <td style="font-weight: bold; vertical-align: middle; text-align: center">OFFICIAL FEE (A + B)</td>
+        </tr>
+        <tbody>
+        @foreach (var annuity in Model.AnnuitiesData) {
+            <tr class="border">
+                <td style="text-align: center">@annuity.AnnuityNo</td>
+                <td style="text-align: center">@annuity.NoOfClaim</td>
+                <td style="text-align: right">@(annuity.BasicFee.ToString("N0"))</td>
+                <td style="text-align: right">@(annuity.ClaimFee.ToString("N0"))</td>
+                <td style="text-align: right">@(annuity.OfficialFee.ToString("N0"))</td>
+                <td style="text-align: right">@(isDifferenceCurrency ? new Money(annuity.AgencyFee, Model.CurrencyCode).ToString("C0") : annuity.AgencyFee.ToString("N0"))</td>
+            </tr>
+        }
+        <tr>
+            <td>&nbsp;</td>
+        </tr>
+        <tr>
+            <td colspan="2" style="font-weight: bold;">Sub Total - Official Fees</td>
+            <td style="text-align: right">@(isDifferenceCurrency ? new Money(Model.SubTotalOfficialFees, Model.CurrencyCode).ToString("C0") : Model.SubTotalOfficialFees.ToString("N0"))</td>
+        </tr>
+        <tr>
+            <td colspan="2" style="font-weight: bold;">Sub Total - Agency Fees</td>
+            <td style="text-align: right">@(isDifferenceCurrency ? new Money(Model.SubTotalAgencyFees, Model.CurrencyCode).ToString("C0") : Model.SubTotalAgencyFees.ToString("N0"))</td>
+        </tr>
+        @if (Model.AgencyFeeDiscountRate > 0) {
+            <tr>
+                <td colspan="2" style="font-weight: bold;">Agency Fees Discount - @string.Format("{0}%", Model.AgencyFeeDiscountRate.ToString("N0"))</td>
+                <td style="text-align: right">
+                    <div class="border-bottom">@(isDifferenceCurrency ? new Money(Model.AgencyFeeDiscount, Model.CurrencyCode).ToString("C0") : Model.AgencyFeeDiscount.ToString("N0"))</div>
+                </td>
+            </tr>
+        }
+        <tr>
+            <td colspan="2" style="font-weight: bold;">Total Fees</td>
+            <td style="text-align: right">
+                @(isDifferenceCurrency ? new Money(Model.TotalFees, Model.CurrencyCode).ToString("C0") : Model.TotalFees.ToString("N0"))
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" style="font-weight: bold;">Taxes - @string.Format("{0}%", Model.TaxRate.ToString("N0"))</td>
+            <td style="text-align: right">
+                <div class="border-bottom">@(isDifferenceCurrency ? new Money(Model.Taxes, Model.CurrencyCode).ToString("C0") : Model.Taxes.ToString("N0"))</div>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" style="font-weight: bold;">Total Cost Estimation</td>
+            <td style="text-align: right; font-weight: bold">
+                <div class="double-border-bottom">@(isDifferenceCurrency ? new Money(Model.TotalCostEstimation, Model.CurrencyCode).ToString("C0") : Model.TotalCostEstimation.ToString("N0")) </div>
+            </td>
+        </tr>
+        <tr>
+            <td>&nbsp;</td>
+        </tr>
+        @if (isDifferenceCurrency) {
+            <tr>
+                <td colspan="4"><i>The Official fees will fluctuate depending on daily exchange rate.</i></td>
+            </tr>
+        }
+
+        </tbody>
+    </table>
+</div>
+<div class="row">
+    <table></table>
+</div>
+
+<script>
+    $(document).ready(function() {
+        $("#exportPdf").unbind("click");
+        //console.log($('#exportPdf'));
+        $('#exportPdf').click(function() {
+                var dd = {
+                        content: [
+                            {
+                                text:
+                                    'BREAKDOWN CALCULATION OF @(Model.PayableYear > 0 ? "PRE" : "POST")-GRANT ANNUITIES ',
+                                style: 'subheader'
+                            },
+                            {
+                                style: 'tableExample',
+                                color: '#444',
+                                table: {
+                                    widths: ['star', 'star', 'star', 'star', 'star', 'star'],
+                                    headerRows: 0,
+                                    // keepWithHeaderRows: 1,
+                                    body: [
+                                        [
+                                            { text: 'CREATE COUNTRY', style: 'textLabel', colSpan: 2, alignment: 'left' },
+                                            {},
+                                            {
+                                                text: '@Html.Raw(Model.CreateCountry)',
+                                                style: 'textNormal',
+                                                alignment: 'left'
+                                            },
+                                            {},{},{}
+                                        ],
+                                        [
+                                            { text: 'REPORT DATE', style: 'textLabel', colSpan: 2, alignment: 'left' },
+                                            {},
+                                            {
+                                                text: '@DateTime.Now.ToString("d-MMM-yy")',
+                                                style: 'textNormal',
+                                                alignment: 'left'
+                                            },
+                                            @if (Model.FillingDate.HasValue) {
+                                                @Html.Raw($@"
+                                                 {{ text: 'FILING DATE', style: 'textLabel', colSpan: 2, alignment: 'left' }},
+                                                 {{}},
+                                                 {{ text: '{@Model.FillingDate.Value.ToString("d-MMM-yy")}', style: 'textNormal', alignment: 'left' }}")
+                                            } else {
+                                                @Html.Raw(@"{},{},{}")
+                                            }
+                                        ],
+                                        [
+                                            {
+                                                text: 'PATENT TYPE',
+                                                style: 'textLabel',
+                                                colSpan: 2,
+                                                alignment: 'left'
+                                            },
+                                            {},
+                                            { text: '@Model.PatentType', style: 'textNormal', alignment: 'left' },
+                                             @if (Model.FillingDate.HasValue) {
+                                                @Html.Raw($@"
+                                                 {{ text: 'GRANT DATE', style: 'textLabel', colSpan: 2, alignment: 'left' }},
+                                                 {{}},
+                                                 {{ text: '{@Model.GrantDate.Value.ToString("d-MMM-yy")}', style: 'textNormal', alignment: 'left' }}")
+                                            } else {
+                                                @Html.Raw(@"{},{},{}")
+                                            }
+                                        ],
+                                        [
+                                            {
+                                                text: 'APPLICATION/PATENT NO.',
+                                                style: 'textLabel',
+                                                colSpan: 2,
+                                                alignment: 'left'
+                                            },
+                                            {},
+                                            {
+                                                text: '@Html.Raw(Model.ApplicationPatentNo)',
+                                                style: 'textNormal',
+                                                alignment: 'left',
+                                                colSpan: 4
+                                            },
+                                            {},
+                                            {},
+                                            {}
+                                        ],
+                                        [
+                                            {
+                                                text: 'NO. OF CLAIM',
+                                                style: 'textLabel',
+                                                colSpan: 2,
+                                                alignment: 'left'
+                                            },
+                                            {},
+                                            { text: '@Model.NumberOfClaim', style: 'textNormal', alignment: 'left' },
+                                           @if (Model.AgencyFeeDiscount > 0) {
+                                               @Html.Raw($@"
+                                            {{ text: 'AGENCY FEE DISCOUNT', style: 'textLabel', colSpan: 2, alignment: 'left' }},
+                                            {{}},
+                                            {{ text: '{Model.AgencyFeeDiscountRate.ToString("N0")}%', style: 'textNormal', alignment: 'left' }}")
+                                           } else {
+                                                @Html.Raw(@"{},{},{}")
+                                           }
+                                        ],
+                                        [
+                                            { text: 'CURRENCY', style: 'textLabel', colSpan: 2, alignment: 'left' },
+                                            {},
+                                            { text: '@Model.CurrencyCode', style: 'textNormal', alignment: 'left' },
+                                            @if (Model.PayableYear > 0) {
+                                               @Html.Raw($@"
+                                            {{ text: 'ANNUITY YEARS', style: 'textLabel', colSpan: 2, alignment: 'left' }},
+                                            {{}},
+                                            {{ text: '{Model.PayableYear}', style: 'textNormal', alignment: 'left' }}")
+                                           } else {
+                                                @Html.Raw(@"{},{},{}")
+                                           }
+                                            ],
+                [
+                        {
+                            text: 'TAX RATE',
+                            style: 'textLabel',
+                            colSpan: 2,
+                            alignment: 'left'
+                        },
+                        {},
+                        {
+                            text: '@string.Format("{0}%", Model.TaxRate.ToString("N0"))',
+                            style: 'textNormal',
+                            alignment: 'left'
+                        },
+                        @if (isDifferenceCurrency) {
+                            @Html.Raw(string.Format(@"
+                                        {{ text: 'FX RATE', style: 'textLabel', colSpan: 2, alignment: 'left' }},
+                                    {{}},
+                                    {{ text: '1 {0} = {1} {2}', style: 'textSmall', alignment: 'left' }}", Model.CurrencyCode, Model.FXRate < 0.01m ? string.Format("{0:n0}", 1 / Model.FXRate) : string.Format("{0:n}", 1 / Model.FXRate), Model.DefaultCurrencyCode))
+                                     } else {
+                                             @Html.Raw(@"{},{},{}")
+                                           }
+                    ],
+                    [
+                        {
+                            text: 'ANNUITY',
+                            style: 'tableHeader',
+                            rowSpan: 2,
+                            border: [true, true, true, true],
+                            alignment: 'center',
+                            margin: [0, 9, 0, 0]
+                        },
+                        {
+                            text: 'NO. OF CLAIM',
+                            style: 'textLabel',
+                            rowSpan: 2,
+                            border: [true, true, true, true],
+                            alignment: 'center',
+                            margin: [0, 9, 0, 0]
+                        },
+                        {
+                            text:
+                                'OFFICIAL FEE @($"({Model.DefaultCurrencyCode})")',
+                            style: 'textLabel',
+                            colSpan: 3,
+                            border: [true, true, true, true],
+                            alignment: 'center'
+                        },
+                        {},
+                        {},
+                        {
+                            text:
+                                'AGENCY FEE @(isDifferenceCurrency ? $"({Model.CurrencyCode})" : $"({Model.DefaultCurrencyCode})")',
+                            style: 'textLabel',
+                            rowSpan: 2,
+                            border: [true, true, true, true],
+                            alignment: 'center',
+                            margin: [0, 9, 0, 0]
+                        }
+                    ],
+                    [
+                        {},
+                        {},
+                        {
+                            text: 'BASIC FEE (A)',
+                            style: 'textLabel',
+                            border: [true, true, true, true],
+                            alignment: 'center'
+                        },
+                        {
+                            text: 'CLAIM FEE (B)',
+                            style: 'textLabel',
+                            border: [true, true, true, true],
+                            alignment: 'center'
+                        },
+                        {
+                            text: 'OFFICIAL FEE (A + B)',
+                            style: 'textLabel',
+                            border: [true, true, true, true],
+                            alignment: 'center'
+                        },
+                        {}
+                    ],
+                    @foreach (var annuity in Model.AnnuitiesData) {
+                        @Html.Raw(string.Format(@"[
+                                        {{ text: '{0}', style: 'textNormal', border: [true, true, true, true], alignment: 'center' }},
+                                        {{ text: '{1}', style: 'textNormal', border: [true, true, true, true], alignment: 'center' }},
+                                        {{ text: '{2}', style: 'textNormal', border: [true, true, true, true], alignment: 'right' }},
+                                        {{ text: '{3}', style: 'textNormal', border: [true, true, true, true], alignment: 'right' }},
+                                        {{ text: '{4}', style: 'textNormal', border: [true, true, true, true], alignment: 'right' }},
+                                        {{ text: '{5}', style: 'textNormal', border: [true, true, true, true], alignment: 'right' }}
+                                        ],", annuity.AnnuityNo, annuity.NoOfClaim,
+                            annuity.BasicFee.ToString("N0"),
+                            annuity.ClaimFee.ToString("N0"),
+                            annuity.OfficialFee.ToString("N0"),
+                            isDifferenceCurrency ? new Money(annuity.AgencyFee, Model.CurrencyCode).ToString("C0") : annuity.AgencyFee.ToString("N0")))
+                    }
+                    [
+                        {}, {}, {}, {}, {}, {}
+                    ],
+                    [
+                        {
+                            text: 'Sub Total - Official Fees',
+                            style: 'textLabel',
+                            colSpan: 2,
+                            alignment: 'left'
+                        },
+                        {},
+                        {
+                            text:
+                                '@Html.Raw((isDifferenceCurrency ? new Money(Model.SubTotalOfficialFees, Model.CurrencyCode).ToString("C0") : Model.SubTotalOfficialFees.ToString("N0")))',
+                            style: 'textNormal',
+                            alignment: 'right'
+                        },
+                        {},
+                        {},
+                        {}
+                    ],
+                    [
+                        {
+                            text: 'Sub Total - Agency Fees',
+                            style: 'textLabel',
+                            colSpan: 2,
+                            alignment: 'left'
+                        },
+                        {},
+                        {
+                            text:
+                                '@Html.Raw(isDifferenceCurrency ? new Money(Model.SubTotalAgencyFees, Model.CurrencyCode).ToString("C0") : Model.SubTotalAgencyFees.ToString("N0"))',
+                            style: 'textNormal',
+                            alignment: 'right'
+                        },
+                        {},
+                        {},
+                        {}
+                    ],
+                    @if (Model.AgencyFeeDiscountRate > 0) {
+                        @Html.Raw(string.Format(@"[
+                                            {{ text: 'Agency Fees Discount - {0}%', style: 'textLabel', colSpan: 2, alignment: 'left' }},
+                                            {{}},
+                                            {{ text: '({1})', style: 'textNormal', alignment: 'right' }},
+                                            {{}},
+                                            {{}},
+                                            {{}}
+                                            ],"
+                            , Model.AgencyFeeDiscountRate.ToString("N0")
+                            , isDifferenceCurrency ? new Money(Model.AgencyFeeDiscount, Model.CurrencyCode).ToString("C0") : Model.AgencyFeeDiscount.ToString("N0")))
+                    }
+                    [
+                        { text: 'Total Fees', style: 'textLabel', colSpan: 2, alignment: 'left' },
+                        {},
+                        {
+                            text:
+                                '@Html.Raw((isDifferenceCurrency ? new Money(Model.TotalFees, Model.CurrencyCode).ToString("C0") : Model.TotalFees.ToString("N0")))',
+                            style: 'textNormal',
+                            border: [false, true, false, false],
+                            alignment: 'right'
+                        },
+                        {},
+                        {},
+                        {},
+                    ],
+                    [
+                        { text: 'Taxes - @(Model.TaxRate.ToString("N0"))%', style: 'textLabel', colSpan: 2, alignment: 'left' },
+                        {},
+                        {
+                            text:
+                                '@Html.Raw((isDifferenceCurrency ? new Money(Model.Taxes, Model.CurrencyCode).ToString("C0") : Model.Taxes.ToString("N0")))',
+                            style: 'textNormal',
+                            alignment: 'right'
+                        },
+                        {},
+                        {},
+                        {}
+                    ],
+                    [
+                        {
+                            text: 'Total Cost Estimation',
+                            style: 'textLabel',
+                            colSpan: 2,
+                            alignment: 'left'
+                        },
+                        {},
+                        {
+                            text:
+                                '@Html.Raw(isDifferenceCurrency ? new Money(Model.TotalCostEstimation, Model.CurrencyCode).ToString("C0") : Model.TotalCostEstimation.ToString("N0"))',
+                            style: 'textLabel',
+                            alignment: 'right',
+                            border: [false, true, false, true]
+                        },
+                        {},
+                        {},
+                        {}
+                    ]
+                    @if (isDifferenceCurrency) {
+                        @Html.Raw(@",[{ text: 'The Official fees will fluctuate depending on daily exchange rate.', style: 'textItalic', colSpan: 4, alignment: 'left' },
+                                     {},
+                                     {},
+                                     {},
+                                     {},
+                                     {}],")
+                    }
+                ]
+
+            },
+            layout:
+        {
+            defaultBorder: false,
+        }
+
+    }
+    ],
+    styles: {
+        header: {
+            fontSize: 18,
+                bold:
+            true,
+                margin:
+            [0, 0, 0, 10]
+        },
+        subheader: {
+            fontSize: 13,
+                bold:
+            true,
+                margin:
+            [0, 10, 0, 5]
+        },
+        tableExample: {
+            margin: [0, 5, 0, 15]
+        },
+        tableHeader: {
+            bold: true,
+                fontSize:
+            13,
+                color:
+            'black'
+        },
+        textLabel: {
+            bold: true,
+                fontSize:12,
+                color:'black'
+
+        },
+        textNormal: {
+            bold: false,
+                fontSize:12,
+                color:
+            'black'
+        },textSmall: {
+            bold: false,
+            fontSize: 8,
+            color: 'black'
+        },textItalic: {
+            bold: false,
+            fontSize: 12,
+            color: 'black',
+            margin:[0, 10, 0, 5]
+        }
+    },
+    defaultStyle: {
+        // alignment: 'justify'
+
+    }
+    }
+
+    pdfMake.createPdf(dd).download("Report.pdf");
+    });
+    })
+</script>

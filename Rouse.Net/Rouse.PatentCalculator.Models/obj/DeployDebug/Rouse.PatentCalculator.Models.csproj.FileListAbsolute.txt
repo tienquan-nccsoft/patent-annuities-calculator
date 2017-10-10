@@ -1,0 +1,6 @@
+C:\Users\TienQuan\Source\Workspaces\ROUSE.NET\Development\Rouse.Net\Rouse.PatentCalculator.Models\bin\DeployDebug\Rouse.PatentCalculator.Models.dll
+C:\Users\TienQuan\Source\Workspaces\ROUSE.NET\Development\Rouse.Net\Rouse.PatentCalculator.Models\bin\DeployDebug\Rouse.PatentCalculator.Models.pdb
+C:\Users\TienQuan\Source\Workspaces\ROUSE.NET\Development\Rouse.Net\Rouse.PatentCalculator.Models\obj\DeployDebug\Rouse.PatentCalculator.Models.csprojResolveAssemblyReference.cache
+C:\Users\TienQuan\Source\Workspaces\ROUSE.NET\Development\Rouse.Net\Rouse.PatentCalculator.Models\obj\DeployDebug\Rouse.PatentCalculator.Models.csproj.CoreCompileInputs.cache
+C:\Users\TienQuan\Source\Workspaces\ROUSE.NET\Development\Rouse.Net\Rouse.PatentCalculator.Models\obj\DeployDebug\Rouse.PatentCalculator.Models.dll
+C:\Users\TienQuan\Source\Workspaces\ROUSE.NET\Development\Rouse.Net\Rouse.PatentCalculator.Models\obj\DeployDebug\Rouse.PatentCalculator.Models.pdb

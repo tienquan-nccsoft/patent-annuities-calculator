@@ -1,0 +1,283 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Rouse.PatentCalculator.Data" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="AgencyFee">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CountryCode" Type="String" MaxLength="3" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="PatentTypeId" Type="Byte" Nullable="false" />
+    <Property Name="Year" Type="Byte" Nullable="false" />
+    <Property Name="CurrencyCode" Type="String" MaxLength="3" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="ValidFrom" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="Fee" Type="Decimal" Precision="19" Scale="2" Nullable="false" />
+    <NavigationProperty Name="Country" Relationship="Self.FK_AgencyFee_Country" FromRole="AgencyFee" ToRole="Country" />
+    <NavigationProperty Name="Currency" Relationship="Self.FK_AgencyFee_Currency" FromRole="AgencyFee" ToRole="Currency" />
+    <NavigationProperty Name="PatentFeeType" Relationship="Self.FK_AgencyFee_PatentFeeType" FromRole="AgencyFee" ToRole="PatentFeeType" />
+  </EntityType>
+  <EntityType Name="Country">
+    <Key>
+      <PropertyRef Name="Code" />
+    </Key>
+    <Property Name="Code" Type="String" MaxLength="3" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="DefaultCurrency" Type="String" MaxLength="3" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="AgencyFees" Relationship="Self.FK_AgencyFee_Country" FromRole="Country" ToRole="AgencyFee" />
+    <NavigationProperty Name="Currency" Relationship="Self.FK_Country_Currency" FromRole="Country" ToRole="Currency" />
+    <NavigationProperty Name="OfficialFees" Relationship="Self.FK_OfficialFee_Country" FromRole="Country" ToRole="OfficialFee" />
+    <NavigationProperty Name="PatentFees" Relationship="Self.FK_PatentFee_Country" FromRole="Country" ToRole="PatentFee" />
+    <NavigationProperty Name="Taxes" Relationship="Self.FK_Tax_Country" FromRole="Country" ToRole="Tax" />
+  </EntityType>
+  <EntityType Name="Currency">
+    <Key>
+      <PropertyRef Name="CurrencyCode" />
+    </Key>
+    <Property Name="CurrencyCode" Type="String" MaxLength="3" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Rate" Type="Decimal" Precision="18" Scale="2" />
+    <NavigationProperty Name="AgencyFees" Relationship="Self.FK_AgencyFee_Currency" FromRole="Currency" ToRole="AgencyFee" />
+    <NavigationProperty Name="Countries" Relationship="Self.FK_Country_Currency" FromRole="Currency" ToRole="Country" />
+    <NavigationProperty Name="PatentFees" Relationship="Self.FK_OfficialFee_Currency" FromRole="Currency" ToRole="PatentFee" />
+    <NavigationProperty Name="OfficialFees" Relationship="Self.FK_OfficialFee_Currency1" FromRole="Currency" ToRole="OfficialFee" />
+  </EntityType>
+  <EntityType Name="OfficialFee">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CountryCode" Type="String" MaxLength="3" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="PatentTypeId" Type="Byte" Nullable="false" />
+    <Property Name="Year" Type="Byte" Nullable="false" />
+    <Property Name="CurrencyCode" Type="String" MaxLength="3" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="ValidFrom" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="BasicFee" Type="Decimal" Precision="19" Scale="2" Nullable="false" />
+    <Property Name="ClaimFee" Type="Decimal" Precision="19" Scale="2" Nullable="false" />
+    <NavigationProperty Name="Country" Relationship="Self.FK_OfficialFee_Country" FromRole="OfficialFee" ToRole="Country" />
+    <NavigationProperty Name="Currency" Relationship="Self.FK_OfficialFee_Currency1" FromRole="OfficialFee" ToRole="Currency" />
+    <NavigationProperty Name="PatentFeeType" Relationship="Self.FK_OfficialFee_PatentFeeType" FromRole="OfficialFee" ToRole="PatentFeeType" />
+  </EntityType>
+  <EntityType Name="PatentFee">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CountryCode" Type="String" MaxLength="3" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="PatentTypeId" Type="Byte" Nullable="false" />
+    <Property Name="Year" Type="Byte" Nullable="false" />
+    <Property Name="CurrencyCode" Type="String" MaxLength="3" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="ValidFrom" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="BasicFee" Type="Decimal" Precision="19" Scale="2" Nullable="false" />
+    <Property Name="ClaimFee" Type="Decimal" Precision="19" Scale="2" Nullable="false" />
+    <Property Name="AgencyFee" Type="Decimal" Precision="19" Scale="2" Nullable="false" />
+    <Property Name="Deleted" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="Country" Relationship="Self.FK_PatentFee_Country" FromRole="PatentFee" ToRole="Country" />
+    <NavigationProperty Name="Currency" Relationship="Self.FK_OfficialFee_Currency" FromRole="PatentFee" ToRole="Currency" />
+    <NavigationProperty Name="PatentFeeType" Relationship="Self.FK_OfficialFee_PatentType" FromRole="PatentFee" ToRole="PatentFeeType" />
+  </EntityType>
+  <EntityType Name="PatentFeeType">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Byte" Nullable="false" />
+    <Property Name="Name" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Years" Type="Byte" Nullable="false" />
+    <NavigationProperty Name="AgencyFees" Relationship="Self.FK_AgencyFee_PatentFeeType" FromRole="PatentFeeType" ToRole="AgencyFee" />
+    <NavigationProperty Name="OfficialFees" Relationship="Self.FK_OfficialFee_PatentFeeType" FromRole="PatentFeeType" ToRole="OfficialFee" />
+    <NavigationProperty Name="PatentFees" Relationship="Self.FK_OfficialFee_PatentType" FromRole="PatentFeeType" ToRole="PatentFee" />
+  </EntityType>
+  <EntityType Name="Tax">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CountryCode" Type="String" MaxLength="3" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Type" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Percentage" Type="Decimal" Precision="5" Scale="2" Nullable="false" />
+    <Property Name="Deleted" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="Country" Relationship="Self.FK_Tax_Country" FromRole="Tax" ToRole="Country" />
+  </EntityType>
+  <Association Name="FK_AgencyFee_Country">
+    <End Role="Country" Type="Self.Country" Multiplicity="1" />
+    <End Role="AgencyFee" Type="Self.AgencyFee" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Country">
+        <PropertyRef Name="Code" />
+      </Principal>
+      <Dependent Role="AgencyFee">
+        <PropertyRef Name="CountryCode" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_AgencyFee_Currency">
+    <End Role="Currency" Type="Self.Currency" Multiplicity="1" />
+    <End Role="AgencyFee" Type="Self.AgencyFee" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Currency">
+        <PropertyRef Name="CurrencyCode" />
+      </Principal>
+      <Dependent Role="AgencyFee">
+        <PropertyRef Name="CurrencyCode" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_AgencyFee_PatentFeeType">
+    <End Role="PatentFeeType" Type="Self.PatentFeeType" Multiplicity="1" />
+    <End Role="AgencyFee" Type="Self.AgencyFee" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PatentFeeType">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="AgencyFee">
+        <PropertyRef Name="PatentTypeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Country_Currency">
+    <End Role="Currency" Type="Self.Currency" Multiplicity="0..1" />
+    <End Role="Country" Type="Self.Country" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Currency">
+        <PropertyRef Name="CurrencyCode" />
+      </Principal>
+      <Dependent Role="Country">
+        <PropertyRef Name="DefaultCurrency" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_OfficialFee_Country">
+    <End Role="Country" Type="Self.Country" Multiplicity="1" />
+    <End Role="OfficialFee" Type="Self.OfficialFee" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Country">
+        <PropertyRef Name="Code" />
+      </Principal>
+      <Dependent Role="OfficialFee">
+        <PropertyRef Name="CountryCode" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PatentFee_Country">
+    <End Role="Country" Type="Self.Country" Multiplicity="1" />
+    <End Role="PatentFee" Type="Self.PatentFee" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Country">
+        <PropertyRef Name="Code" />
+      </Principal>
+      <Dependent Role="PatentFee">
+        <PropertyRef Name="CountryCode" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Tax_Country">
+    <End Role="Country" Type="Self.Country" Multiplicity="1" />
+    <End Role="Tax" Type="Self.Tax" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Country">
+        <PropertyRef Name="Code" />
+      </Principal>
+      <Dependent Role="Tax">
+        <PropertyRef Name="CountryCode" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_OfficialFee_Currency">
+    <End Role="Currency" Type="Self.Currency" Multiplicity="1" />
+    <End Role="PatentFee" Type="Self.PatentFee" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Currency">
+        <PropertyRef Name="CurrencyCode" />
+      </Principal>
+      <Dependent Role="PatentFee">
+        <PropertyRef Name="CurrencyCode" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_OfficialFee_Currency1">
+    <End Role="Currency" Type="Self.Currency" Multiplicity="1" />
+    <End Role="OfficialFee" Type="Self.OfficialFee" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Currency">
+        <PropertyRef Name="CurrencyCode" />
+      </Principal>
+      <Dependent Role="OfficialFee">
+        <PropertyRef Name="CurrencyCode" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_OfficialFee_PatentFeeType">
+    <End Role="PatentFeeType" Type="Self.PatentFeeType" Multiplicity="1" />
+    <End Role="OfficialFee" Type="Self.OfficialFee" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PatentFeeType">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="OfficialFee">
+        <PropertyRef Name="PatentTypeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_OfficialFee_PatentType">
+    <End Role="PatentFeeType" Type="Self.PatentFeeType" Multiplicity="1" />
+    <End Role="PatentFee" Type="Self.PatentFee" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PatentFeeType">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="PatentFee">
+        <PropertyRef Name="PatentTypeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="PatCalculatorEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="AgencyFees" EntityType="Self.AgencyFee" />
+    <EntitySet Name="Countries" EntityType="Self.Country" />
+    <EntitySet Name="Currencies" EntityType="Self.Currency" />
+    <EntitySet Name="OfficialFees" EntityType="Self.OfficialFee" />
+    <EntitySet Name="PatentFees" EntityType="Self.PatentFee" />
+    <EntitySet Name="PatentFeeTypes" EntityType="Self.PatentFeeType" />
+    <EntitySet Name="Taxes" EntityType="Self.Tax" />
+    <AssociationSet Name="FK_AgencyFee_Country" Association="Self.FK_AgencyFee_Country">
+      <End Role="Country" EntitySet="Countries" />
+      <End Role="AgencyFee" EntitySet="AgencyFees" />
+    </AssociationSet>
+    <AssociationSet Name="FK_AgencyFee_Currency" Association="Self.FK_AgencyFee_Currency">
+      <End Role="Currency" EntitySet="Currencies" />
+      <End Role="AgencyFee" EntitySet="AgencyFees" />
+    </AssociationSet>
+    <AssociationSet Name="FK_AgencyFee_PatentFeeType" Association="Self.FK_AgencyFee_PatentFeeType">
+      <End Role="PatentFeeType" EntitySet="PatentFeeTypes" />
+      <End Role="AgencyFee" EntitySet="AgencyFees" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Country_Currency" Association="Self.FK_Country_Currency">
+      <End Role="Currency" EntitySet="Currencies" />
+      <End Role="Country" EntitySet="Countries" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OfficialFee_Country" Association="Self.FK_OfficialFee_Country">
+      <End Role="Country" EntitySet="Countries" />
+      <End Role="OfficialFee" EntitySet="OfficialFees" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PatentFee_Country" Association="Self.FK_PatentFee_Country">
+      <End Role="Country" EntitySet="Countries" />
+      <End Role="PatentFee" EntitySet="PatentFees" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Tax_Country" Association="Self.FK_Tax_Country">
+      <End Role="Country" EntitySet="Countries" />
+      <End Role="Tax" EntitySet="Taxes" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OfficialFee_Currency" Association="Self.FK_OfficialFee_Currency">
+      <End Role="Currency" EntitySet="Currencies" />
+      <End Role="PatentFee" EntitySet="PatentFees" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OfficialFee_Currency1" Association="Self.FK_OfficialFee_Currency1">
+      <End Role="Currency" EntitySet="Currencies" />
+      <End Role="OfficialFee" EntitySet="OfficialFees" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OfficialFee_PatentFeeType" Association="Self.FK_OfficialFee_PatentFeeType">
+      <End Role="PatentFeeType" EntitySet="PatentFeeTypes" />
+      <End Role="OfficialFee" EntitySet="OfficialFees" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OfficialFee_PatentType" Association="Self.FK_OfficialFee_PatentType">
+      <End Role="PatentFeeType" EntitySet="PatentFeeTypes" />
+      <End Role="PatentFee" EntitySet="PatentFees" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

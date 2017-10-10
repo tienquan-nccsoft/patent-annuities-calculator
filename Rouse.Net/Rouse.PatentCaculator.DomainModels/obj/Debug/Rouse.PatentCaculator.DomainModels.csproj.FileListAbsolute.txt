@@ -1,0 +1,11 @@
+C:\Users\TienQuan\Source\Workspaces\ROUSE.NET\Development\Rouse.Net\Rouse.PatentCaculator.DomainModels\bin\Debug\Rouse.PatentCaculator.DomainModels.dll.config
+C:\Users\TienQuan\Source\Workspaces\ROUSE.NET\Development\Rouse.Net\Rouse.PatentCaculator.DomainModels\bin\Debug\Rouse.PatentCaculator.DomainModels.dll
+C:\Users\TienQuan\Source\Workspaces\ROUSE.NET\Development\Rouse.Net\Rouse.PatentCaculator.DomainModels\bin\Debug\Rouse.PatentCaculator.DomainModels.pdb
+C:\Users\TienQuan\Source\Workspaces\ROUSE.NET\Development\Rouse.Net\Rouse.PatentCaculator.DomainModels\bin\Debug\EntityFramework.dll
+C:\Users\TienQuan\Source\Workspaces\ROUSE.NET\Development\Rouse.Net\Rouse.PatentCaculator.DomainModels\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\TienQuan\Source\Workspaces\ROUSE.NET\Development\Rouse.Net\Rouse.PatentCaculator.DomainModels\bin\Debug\EntityFramework.xml
+C:\Users\TienQuan\Source\Workspaces\ROUSE.NET\Development\Rouse.Net\Rouse.PatentCaculator.DomainModels\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\TienQuan\Source\Workspaces\ROUSE.NET\Development\Rouse.Net\Rouse.PatentCaculator.DomainModels\obj\Debug\Rouse.PatentCaculator.DomainModels.csprojResolveAssemblyReference.cache
+C:\Users\TienQuan\Source\Workspaces\ROUSE.NET\Development\Rouse.Net\Rouse.PatentCaculator.DomainModels\obj\Debug\Rouse.PatentCaculator.DomainModels.csproj.CoreCompileInputs.cache
+C:\Users\TienQuan\Source\Workspaces\ROUSE.NET\Development\Rouse.Net\Rouse.PatentCaculator.DomainModels\obj\Debug\Rouse.PatentCaculator.DomainModels.dll
+C:\Users\TienQuan\Source\Workspaces\ROUSE.NET\Development\Rouse.Net\Rouse.PatentCaculator.DomainModels\obj\Debug\Rouse.PatentCaculator.DomainModels.pdb
